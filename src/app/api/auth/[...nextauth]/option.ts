@@ -16,13 +16,15 @@ export const authOption: NextAuthOptions = {
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
 
+        console.log("the credentilas", credentials);
+
         try {
           const user = await UserModel.findOne({
             $or: [
-              { email: credentials.identifire },
-              { username: credentials.identifire },
+              { email: credentials.identifier }, 
+              { username: credentials.identifier }, 
             ],
-          });
+          }).select("+password");
 
           if (!user) {
             throw new Error("No User found with this email or username");
@@ -32,16 +34,21 @@ export const authOption: NextAuthOptions = {
             throw new Error("Please verify your account before login");
           }
 
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password.toString()
-          );
+          if (!user.password) {
+            throw new Error(
+              "User password is missing. Try resetting your password."
+            );
+          }
 
-          if (isPasswordCorrect) {
-            return user;
-          } else {
+          console.log("User password:", user.password);
+          
+
+          const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password.toString());
+
+          if (!isPasswordCorrect) {
             throw new Error("Invalid password");
           }
+          return user;
         } catch (error: any) {
           throw new Error(error.message);
         }

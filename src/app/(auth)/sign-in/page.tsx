@@ -36,7 +36,7 @@ const Page = () => {
 
     const result = await signIn("credentials", {
       redirect: false,
-      identifier: data.identifier,
+      identifier: data.identifier, 
       password: data.password,
     });
 
