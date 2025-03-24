@@ -23,9 +23,11 @@ export default function VerifyAccount() {
   const params = useParams();
 
   // Ensure params.username exists
-  const username = params?.username;
+  // const username = params?.username;
+  const username = params?.username as string | undefined;
+
   if (!username) {
-    toast("Error", { description: "Invalid verification link." });
+    toast.error("Invalid verification link.");
     return null;
   }
 
@@ -36,22 +38,36 @@ export default function VerifyAccount() {
     },
   });
 
+  // const onSubmit = async (data: z.infer<typeof verifySchema>) => {
+  //   try {
+  //     const response = await axios.get<ApiResponse>(`/api/verify?username=${encodeURIComponent(username)}&code=${data.code}`);
+
+  //     toast("Success", { description: response.data.message });
+  //     router.replace("/sign-in");
+  //   } catch (error) {
+  //     const axiosError = error as AxiosError<ApiResponse>;
+  //     toast("Verification Failed", {
+  //       description:
+  //         axiosError.response?.data.message ??
+  //         "An error occurred. Please try again.",
+  //     });
+  //   }
+  // };
+
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {
-      const response = await axios.post<ApiResponse>(`/api/verify-code`, {
-        username,
-        code: data.code,
-      });
+      const response = await axios.get<ApiResponse>(
+        `/api/verify-code?username=${encodeURIComponent(username)}&code=${data.code}`
+      );
 
-      toast("Success", { description: response.data.message });
+      toast.success(response.data.message);
       router.replace("/sign-in");
     } catch (error) {
       const axiosError = error as AxiosError<ApiResponse>;
-      toast("Verification Failed", {
-        description:
-          axiosError.response?.data.message ??
-          "An error occurred. Please try again.",
-      });
+      toast.error(
+        axiosError.response?.data.message ??
+          "An error occurred. Please try again."
+      );
     }
   };
 
@@ -79,7 +95,9 @@ export default function VerifyAccount() {
                 </FormItem>
               )}
             />
-            <Button type="submit">Submit</Button>
+            <Button className="cursor-pointer" type="submit">
+              Submit
+            </Button>
           </form>
         </Form>
       </div>

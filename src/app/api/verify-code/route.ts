@@ -6,7 +6,20 @@ export async function GET(request: NextRequest) {
   await dbConnect();
 
   try {
-    const { username, code } = await request.json();
+    // request.json() will fail because GET requests don’t support a request body.
+    // Instead, you should extract parameters from the query string using request.nextUrl.searchParams.
+    // const { username, code } = await request.json();
+    
+    const searchParams = request.nextUrl.searchParams;
+    const username = searchParams.get("username");
+    const code = searchParams.get("code");
+
+    if (!username || !code) {
+      return NextResponse.json(
+        { success: false, message: "Username and code are required" },
+        { status: 400 }
+      );
+    }
 
     /* When data is passed in a URL, certain characters (e.g., spaces, @, #, &, etc.) are encoded to ensure the URL remains valid. 
          decodeURIComponent helps retrieve the original data by decoding these encoded characters.
@@ -23,7 +36,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Check if the code is correct and not expired
-    const isCorrectCode = user.isVerified === code;
+    const isCorrectCode = user.verifyCode === code;
     const isCodeNotExpired = new Date(user.verifyCodeExpiry) > new Date();
 
     if (isCorrectCode && isCodeNotExpired) {
