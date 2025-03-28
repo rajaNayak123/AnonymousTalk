@@ -54,9 +54,9 @@ export default function SendMessage() {
 
   const messageContent = form.watch("content");
 
-  const handleMessageClick = (message: string) => {
-    form.setValue("content", message);
-  };
+  // const handleMessageClick = (message: string) => {
+  //   form.setValue("content", message);
+  // };
 
   const [isLoading, setIsLoading] = useState(false);
 

@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authOption } from "../auth/[...nextauth]/option";
+import { authOption} from "../auth/[...nextauth]/option";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 // import { User } from "next-auth";
@@ -9,22 +9,38 @@ export async function POST(request: NextRequest) {
   await dbConnect();
 
   const session = await getServerSession(authOption);
-  const user = session?.user;
+  // const user = session?.user;
 
-  if (!session || session.user) {
+  if (!session || !session.user) {
     return NextResponse.json(
       { success: false, message: "user not authenticated" },
       { status: 401 }
     );
   }
 
-  const userId = user?._id;
-  const { acceptmessages } = await request.json();
+  const userId = (session.user as any)._id;
+
+  if (!userId) {
+    return NextResponse.json(
+      { success: false, message: "User ID not found in session" },
+      { status: 400 }
+    );
+  }
+  // const userId = user?._id;
 
   try {
+    const { acceptMessages } = await request.json();
+
+    if (typeof acceptMessages !== "boolean") {
+      return NextResponse.json(
+        { success: false, message: "Invalid input for acceptmessages" },
+        { status: 400 }
+      );
+    }
+
     const updatedUser = await UserModel.findByIdAndUpdate(
       userId,
-      { isAcceptingMessage: acceptmessages },
+      { isAcceptingMessage: acceptMessages },
       { new: true }
     );
 
@@ -55,20 +71,28 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOption);
-  const user = session?.user;
+  // const user = session?.user;
 
-  if (!session || session.user) {
+  if (!session || !session.user) {
     return NextResponse.json(
       { success: false, message: "user not authenticated" },
       { status: 401 }
     );
   }
 
-  const userId = user?._id;
+  const userId = (session.user as any)._id;
+
+  // const userId = user?._id;
+  if (!userId) {
+    return NextResponse.json(
+      { success: false, message: "User ID not found in session" },
+      { status: 400 }
+    );
+  }
 
   try {
     const foundUser = await UserModel.findById(userId);
@@ -81,7 +105,7 @@ export async function GET(request: NextRequest) {
     }
 
     return NextResponse.json(
-      { success: false, isAcceptingMessage: foundUser.isAcceptingMessage },
+      { success: true, isAcceptingMessage: foundUser.isAcceptingMessage },
       { status: 200 }
     );
   } catch (error) {

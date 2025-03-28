@@ -17,15 +17,15 @@ const messageSchema: Schema<Message> = new Schema({
   createdAt: {
     type: Date,
     required: true,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 
 export interface User extends Document {
-  username: String;
-  email: String;
-  password: String;
-  verifyCode: String;
+  username: string;
+  email: string;
+  password: string;
+  verifyCode: string;
   verifyCodeExpiry: Date;
   isVerified: boolean;
   isAcceptingMessage: boolean;
@@ -67,7 +67,10 @@ const userSchema: Schema<User> = new Schema({
     type: Boolean,
     default: true,
   },
-  messages: [messageSchema],
+  messages: {
+    type: [messageSchema],
+    default: [], 
+  },
 });
 
 const UserModel =

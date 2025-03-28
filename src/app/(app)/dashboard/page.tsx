@@ -33,7 +33,7 @@ const UserDashboard = () => {
   const { register, watch, setValue } = useForm();
 
   const acceptMessages = watch("acceptMessages");
-
+        // acceptmessages
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
@@ -62,7 +62,7 @@ const UserDashboard = () => {
         setMessages(response.data.messages || []);
 
         if (refresh) {
-          toast("Error", { description: "Showing latest message" });
+          toast("Ooo new messages", { description: "Showing latest message" });
         }
       } catch (error) {
         const axiosError = error as AxiosError<ApiResponse>;
@@ -86,9 +86,10 @@ const UserDashboard = () => {
 
   // Handle switch change
   const handleSwitchChange = async () => {
+    console.log("Toggling switch. Current:", acceptMessages); // ✅ Debugging log
     try {
-      const response = await axios.post<ApiResponse>("/api/accept-messages", {
-        acceptMessages: !acceptMessages,
+      const response = await axios.post<ApiResponse>("/api/accept-message", {
+        acceptMessages: !acceptMessages, 
       });
       setValue("acceptMessages", !acceptMessages);
       toast("", {
@@ -127,14 +128,14 @@ const UserDashboard = () => {
 
         <div className="mb-4">
           <h2 className="text-lg font-semibold mb-2">Copy Your Unique Link</h2>{" "}
-          <div className="flex items-center">
+          <div className="flex items-center border rounded bg-gray-200">
             <input
               type="text"
               value={profileUrl}
               disabled
               className="input input-bordered w-full p-2 mr-2"
             />
-            <Button onClick={copyToClipboard}>Copy</Button>
+            <Button className="px-8 py-6" onClick={copyToClipboard}>Copy</Button>
           </div>
         </div>
 
