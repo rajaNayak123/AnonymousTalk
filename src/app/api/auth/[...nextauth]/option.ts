@@ -12,7 +12,7 @@ export const authOption: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-
+       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
 
@@ -49,7 +49,8 @@ export const authOption: NextAuthOptions = {
             throw new Error("Invalid password");
           }
           return user;
-        } catch (error: any) {
+        } catch ( // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+        error: any) {
           throw new Error(error.message);
         }
       },

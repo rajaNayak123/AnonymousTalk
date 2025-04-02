@@ -21,15 +21,7 @@ import { toast } from "sonner";
 export default function VerifyAccount() {
   const router = useRouter();
   const params = useParams();
-
-  // Ensure params.username exists
-  // const username = params?.username;
   const username = params?.username as string | undefined;
-
-  if (!username) {
-    toast.error("Invalid verification link.");
-    return null;
-  }
 
   const form = useForm<z.infer<typeof verifySchema>>({
     resolver: zodResolver(verifySchema),
@@ -38,21 +30,10 @@ export default function VerifyAccount() {
     },
   });
 
-  // const onSubmit = async (data: z.infer<typeof verifySchema>) => {
-  //   try {
-  //     const response = await axios.get<ApiResponse>(`/api/verify?username=${encodeURIComponent(username)}&code=${data.code}`);
-
-  //     toast("Success", { description: response.data.message });
-  //     router.replace("/sign-in");
-  //   } catch (error) {
-  //     const axiosError = error as AxiosError<ApiResponse>;
-  //     toast("Verification Failed", {
-  //       description:
-  //         axiosError.response?.data.message ??
-  //         "An error occurred. Please try again.",
-  //     });
-  //   }
-  // };
+  if (!username) {
+    toast.error("Invalid verification link.");
+    return <div className="text-center text-red-500">Invalid verification link.</div>; // Prevent returning null
+  }
 
   const onSubmit = async (data: z.infer<typeof verifySchema>) => {
     try {

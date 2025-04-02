@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOption} from "../auth/[...nextauth]/option";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-// import { User } from "next-auth";
+import { User } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
@@ -18,7 +18,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const userId = (session.user as any)._id;
+  // const userId = (session.user as any)._id;
+  const user = session.user as User & { _id: string };
+  const userId = user._id;
 
   if (!userId) {
     return NextResponse.json(
@@ -84,7 +86,9 @@ export async function GET() {
     );
   }
 
-  const userId = (session.user as any)._id;
+  // const userId = (session.user as any)._id;
+  const user = session.user as User & { _id: string };
+  const userId = user._id;
 
   // const userId = user?._id;
   if (!userId) {

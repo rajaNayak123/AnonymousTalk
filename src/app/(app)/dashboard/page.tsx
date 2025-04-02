@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { Message } from "@/model/User";
-import { AcceptMessageSchema } from "@/schemas/acceptMessageSchema";
+// import { AcceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { ApiResponse } from "@/types/ApiResponse";
-import { zodResolver } from "@hookform/resolvers/zod";
+// import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { Loader2, RefreshCcw } from "lucide-react";
 import { User } from "next-auth";
@@ -26,14 +26,15 @@ const UserDashboard = () => {
 
   const { data: session } = useSession();
 
-  const form = useForm({
-    resolver: zodResolver(AcceptMessageSchema),
-  });
+  // Remove the unused 'form' variable
+  // const form = useForm({
+  //   resolver: zodResolver(AcceptMessageSchema),
+  // });
 
   const { register, watch, setValue } = useForm();
 
   const acceptMessages = watch("acceptMessages");
-        // acceptmessages
+
   const fetchAcceptMessage = useCallback(async () => {
     setIsSwitchLoading(true);
     try {
@@ -168,7 +169,7 @@ const UserDashboard = () => {
         </Button>
         <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
           {messages.length > 0 ? (
-            messages.map((message, index) => (
+            messages.map((message) => ( // Removed 'index' here
               <MessageCard
                 key={message._id}
                 message={message}

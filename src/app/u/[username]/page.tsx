@@ -31,8 +31,7 @@ import { messageSchema } from "@/schemas/messageSchema";
 //   return messageString.split(specialChar);
 // };
 
-const initialMessageString =
-  "What's your favorite movie?||Do you have any pets?||What's your dream job?";
+// const initialMessageString = "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
