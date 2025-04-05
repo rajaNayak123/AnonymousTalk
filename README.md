@@ -19,6 +19,26 @@ This project is a secure, privacy-first feedback platform built with Next.js. It
 - **Validation & Forms**: Zod, react-hook-form
 - **Styling**: Tailwind CSS, shadcn
 
+## 🎥 Demo
+
+👉 Link to demo video or live site [Visit Site](https://anonymous-talk.vercel.app/)
+
+## 📸 Screenshots
+      
+   ### 🏠 Home page
+   <img width="1427" alt="Screenshot 2025-04-05 at 12 48 55 PM" src="https://github.com/user-attachments/assets/1799a92d-fd5a-4d2d-bbf8-fcb4161646ff" />
+  
+   ### 🔐 Authentication Page
+   <img width="1427" alt="Screenshot 2025-04-05 at 12 51 20 PM" src="https://github.com/user-attachments/assets/9f0c72ec-588b-4cd0-977a-807343616638" />
+   <img width="1427" alt="Screenshot 2025-04-05 at 12 51 46 PM" src="https://github.com/user-attachments/assets/36c534d5-2666-4c2a-990e-21eb43411f34" />
+
+   ### 📊 Dashboard with Anonymous Messages
+   <img width="1440" alt="Screenshot 2025-04-05 at 12 52 51 PM" src="https://github.com/user-attachments/assets/c199e8b9-bc80-4d81-87ea-b1bb72dc8985" />
+   <img width="1440" alt="Screenshot 2025-04-05 at 12 54 02 PM" src="https://github.com/user-attachments/assets/74db2194-019a-4857-a850-bf36df8ed3d4" />
+
+   ### 🔗 Shareable URL Page
+   <img width="1440" alt="Screenshot 2025-04-05 at 12 53 07 PM" src="https://github.com/user-attachments/assets/7125a3bb-af88-40f6-9e14-802f37aa9b6c" />
+
 ## 📌 Installation
 
 1. **Clone the repository:**
